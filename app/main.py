@@ -6,6 +6,7 @@ from app.utils import handle_client
 
 async def main():
     redis_db = RedisDatabase()
+    asyncio.create_task(redis_db.remove_expired_keys(interval=10))
     server = await asyncio.start_server(partial(handle_client, redis_db = redis_db), 'localhost', 6379)
     print("Server started on localhost:6379")
     async with server:
